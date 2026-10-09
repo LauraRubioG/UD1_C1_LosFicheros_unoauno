@@ -67,10 +67,9 @@ public class CrearOrganizarInspeccionar {
 
             //--------------ESCRIBIMOS DOS LINEAS EN EL FICHERO-------------------
             //metodo nuevo, try nuevo
-            try {
+            try (FileWriter maquinaescribir = new FileWriter(texto)) {
                 //lo primero que haces es crear una variable de tipo FileWriter, que nos ayudara a
                 //escribir en ella, creamos la estancia para despues usarla
-                FileWriter maquinaescribir = new FileWriter(texto);
                 //para escribir en ella solo tenemos que hacerlo de la siguiente forma:
                 //(importante poner los \n en mi opinion para que se escriba debajo)
                 //TENER CUIDADO porque FileWriter por defecto VACIA el fichero
@@ -163,6 +162,19 @@ public class CrearOrganizarInspeccionar {
                 }
                 System.out.println("Total de entradas en la carpeta: " + contador);
 
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            //---------------------------LISTFILES() PARA NO ES UN DIRECTORIO------------------
+            try {
+                //creamos la variable de formato lista
+                File[] listado = textonuevo.listFiles();
+
+                //comprobamos con la nulidad para evitar un NullPointerException
+                if(listado == null){
+                    System.out.println("Esta controlador, listFiles() devolvio un null " + textonuevo.getName() + " no es un directorio");
+                    System.out.println("El programa termina correctamente sin lanzar excepcion");
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
